@@ -1,0 +1,14 @@
+{
+  "name": "DynDUP",
+  "version": "0.0.1",
+  "description": "DynDNS update proxy",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "author": "Pim <pvdheijden@gmx.com>",
+  "license": "MIT"
+}
