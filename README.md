@@ -2,8 +2,8 @@ DynDUP
 ======
 
 dyndup.sh is a bash script that:
-1. Get external dynamic IP-address as provided by ISP (via http://www.telize.com/ip)
-2. Calls into AWS lambda function that updates entry (A-record) in AWS Route53 if needed
+- Get external dynamic IP-address as provided by ISP (via http://www.telize.com/ip)
+- Calls into AWS lambda function that updates entry (A-record) in AWS Route53 if needed
 
 Repository contains:
 - dyndup (bash-) script
