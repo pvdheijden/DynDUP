@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "install-lambda": "grunt lambda-install",
+    "deploy-clients": "ansible-playbook -vv -i hosts dyndup.yml"
   },
   "author": "Pim <pvdheijden@yahoo.com>",
   "license": "MIT",
@@ -29,7 +31,8 @@
     "istanbul": "*",
     "jshint": "*",
     "jshint-stylish": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "chai": "*"
   },
   "dependencies": {
     "debug": "*",

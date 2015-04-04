@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
         'env': {
             'dev': {
-                'src': 'env-dev.ini'
+                'src': 'env.ini'
             }
         },
 

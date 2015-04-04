@@ -1,18 +1,22 @@
 DynDUP
 ======
 
-AWS lambda
+dyndup.sh is a bash script that:
+1. Get external dynamic IP-address as provided by ISP (via http://www.telize.com/ip)
+2. Calls into AWS lambda function that updates entry (A-record) in AWS Route53 if needed
 
-    !# /bin/bash
+Repository contains:
+- dyndup (bash-) script
+- AWS lambda function
+- Ansible script to setup and configure script as a cron-job to update at a regular interval the DNS entry
 
-    # create zip
-    zip dyndup.zip dyndup.js lib/aws-route53-rrs.js
+Installation
+------------
+Installation of AWS lambda function
 
-    # upload zip to aws lambda
-    aws lambda upload-function \
-    --function-name dyndup \
-    --function-zip dyndup.zip \
-    --role arn:aws:iam::402526837177:role/lambda-execution \
-    --mode event \
-    --handler dyndup.handler \
-    --runtime nodejs
+    npm run-script install-lambda
+
+Deployment of script on system responsible for call-out to the lambda-function
+
+    npm run-script deploy-clients
+

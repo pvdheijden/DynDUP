@@ -1,0 +1,26 @@
+---
+- hosts: denbosch
+  sudo: yes
+
+  vars:
+    - domain: zifzaf.com
+
+  vars_files:
+    - aws.yml
+
+  tasks:
+    # install awscli
+    - apt:  state=present name=python-pip
+    - pip:  state=present name=awscli
+
+    # configure dyndup user under which script shall execute
+    - user: state=present name=dyndup shell=/bin/bash
+    - file: state=directory path=/home/dyndup/.aws/ owner=dyndup group=dyndup
+    - template: src=aws-config.j2 dest=/home/dyndup/.aws/config owner=dyndup group=dyndup mode=0600
+    - template: src=aws-credentials.j2 dest=/home/dyndup/.aws/credentials owner=dyndup group=dyndup mode=0600
+
+    # setup the dyndup script
+    - copy: src=dyndup.sh dest=/home/dyndup/dyndup.sh owner=dyndup group=dyndup mode=0700
+    - template: src=dyndup.event.j2 dest=/home/dyndup/dyndup.event owner=dyndup group=dyndup mode=0600
+    - cron: state=present name=execute-dyndup user=dyndup minute=15 job="/home/dyndup/dyndup.sh >> /tmp/dyndup.log 2>&1"
+    - cron: state=present name=purge-dyndup-log user=dyndup day=1 job="rm -f /tmp/dyndup.log"
