@@ -22,5 +22,5 @@
     # setup the dyndup script
     - copy: src=dyndup.sh dest=/home/dyndup/dyndup.sh owner=dyndup group=dyndup mode=0700
     - template: src=dyndup.event.j2 dest=/home/dyndup/dyndup.event owner=dyndup group=dyndup mode=0600
-    - cron: state=present name=execute-dyndup user=dyndup minute=15 job="/home/dyndup/dyndup.sh >> /tmp/dyndup.log 2>&1"
+    - cron: state=present name=execute-dyndup user=dyndup minute=50 job="/home/dyndup/dyndup.sh >> /tmp/dyndup.log 2>&1"
     - cron: state=present name=purge-dyndup-log user=dyndup day=1 job="rm -f /tmp/dyndup.log"
