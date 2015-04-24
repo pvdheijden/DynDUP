@@ -24,14 +24,16 @@ interval the DNS entry
 
 ### Installation of AWS lambda function
 
-    grunt aws-install
+    grunt lambda-install
     
 This installs the lambda function on AWS. This requires 'normal' AWS admin rights (or at least admin rights to AWS 
 Lambda), i.e. run the script as an user that has the appropriate AWS accesskey (~/.aws/credentials) to install the 
 lambda function. Also make sure the appropriate AWS region where to install the lambda function is configured 
 (see ~/.aws/config).
 
-### Deployment of script on system responsible for call-out to the lambda-function
+### Deployment of DynDUP script 
+
+on system responsible 
 
     ansible-playbook -vv -i HOSTS_FILE [--ask-become-pass] dyndup.yml
     
@@ -40,4 +42,8 @@ lambda function. Also make sure the appropriate AWS region where to install the 
     Python must be installed on all of the hosts (is a prerequisite for Ansible). Furthermore SSH access to all hosts 
     must be defined, e.g. via ~/.ssh/config which contains configuration for each host. 
 
-This installs the dyndup.sh script and schedules the script as a cron-job to run every hour.
+This installs the dyndup.sh script and schedules the script as a cron-job to run every hour for a 
+call-out to the lambda-function to update the DNS record if needed.
+
+Note that the script uses the hostname of the host executing the script, at the time of the setup, as the hostname 
+to be used for the DNS record.
