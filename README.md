@@ -34,7 +34,7 @@ lambda function. Also make sure the appropriate AWS region where to install the 
 
 ### AWS permissions
 
-TODO
+See [AWS Permissions Wiki page](https://github.com/pvdheijden/DynDUP/wiki/AWS-Permissions)
 
 ### Deployment of DynDUP script 
 
