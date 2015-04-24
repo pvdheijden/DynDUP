@@ -22,6 +22,7 @@ interval the DNS entry
 * [AWS Command Line Interface](http://aws.amazon.com/cli/) tooling and setup of AWS credentials
 * [Ansible](http://docs.ansible.com/index.html) installed and setup
 
+
 ### Installation of AWS lambda function
 
     grunt lambda-install
@@ -30,6 +31,10 @@ This installs the lambda function on AWS. This requires 'normal' AWS admin right
 Lambda), i.e. run the script as an user that has the appropriate AWS accesskey (~/.aws/credentials) to install the 
 lambda function. Also make sure the appropriate AWS region where to install the lambda function is configured 
 (see ~/.aws/config).
+
+### AWS permissions
+
+TODO
 
 ### Deployment of DynDUP script 
 
