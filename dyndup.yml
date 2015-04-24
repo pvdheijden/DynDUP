@@ -1,5 +1,5 @@
 ---
-- hosts: denbosch
+- hosts: dyndup-test
   sudo: yes
 
   vars:
@@ -12,6 +12,9 @@
     # install awscli
     - apt:  state=present name=python-pip
     - pip:  state=present name=awscli
+
+    # install curl
+    - apt: state=present name=curl
 
     # configure dyndup user under which script shall execute
     - user: state=present name=dyndup shell=/bin/bash

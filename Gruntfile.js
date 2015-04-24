@@ -59,10 +59,10 @@ module.exports = function(grunt) {
                 'command': 'aws lambda upload-function \
                             --function-name dyndup \
                             --function-zip dyndup.zip \
-                            --role arn:aws:iam::402526837177:role/dyndup-role \
-                            --mode event \
+                            --runtime nodejs \
+                            --role arn:aws:iam::402526837177:role/dyndup-execution \
                             --handler dyndup.handler \
-                            --runtime nodejs'
+                            --mode event'
             },
             'lambda-test': {
                 'command': 'aws lambda invoke-async --debug --function-name dyndup --invoke-args ./dyndup.event'

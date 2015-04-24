@@ -12,13 +12,17 @@ describe('functions', function() {
         expect(rrs.getA).to.be.a('function');
     });
 
+    it('rrs.setA should be a function', function() {
+        expect(rrs.setA).to.be.a('function');
+    });
+
 });
 
 describe('aws-route53-rss functions', function() {
 
     it('getA', function(done) {
         this.timeout(0);
-        rrs.getA(zoneId, 'denbosch.zifzaf.com.', function(err, data) {
+        rrs.getA(zoneId, 'dyndup-test.zifzaf.com.', function(err, data) {
             if (err) {
                 return done(err);
             }
@@ -30,7 +34,7 @@ describe('aws-route53-rss functions', function() {
 
     it('setA', function(done) {
         this.timeout(0);
-        rrs.setA(zoneId, 'denbosch.zifzaf.com.', '84.27.225.222', function(err, data) {
+        rrs.setA(zoneId, 'dyndup-test.zifzaf.com.', '84.27.225.222', function(err, data) {
             if (err) {
                 return done(err);
             }
