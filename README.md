@@ -34,21 +34,65 @@ lambda function. Also make sure the appropriate AWS region where to install the 
 
 ### AWS permissions
 
-See [AWS Permissions Wiki page](https://github.com/pvdheijden/DynDUP/wiki/AWS-Permissions)
+#### dyndup aws-user policy
+
+The dyndup.sh script needs the nessecary rights and permissions to execute the lambda function. This is accomplished 
+by running the script in the context of an user (i.e. user: dyndup) on the host with the AWS credentials (i.e. 
+aws-user: dyndup) with the (minimal) required permissions. 
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "iam:PassRole",
+                    "lambda:*"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+    
+#### dyndup lambda execution policy
+
+The lambda function itself must have the nessecary rigths, assigned the AWS-role (i.e. dyndup-execution) to read 
+and write the Route53 DNS records.
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": [
+                    "logs:*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "route53:*"
+                ],
+                "Resource": [
+                    "arn:aws:route53:::hostedzone/HOST_ID"
+                ]
+            }
+        ]
+    }
 
 ### Deployment of DynDUP script 
 
-on system responsible 
-
-    ansible-playbook -vv -i HOSTS_FILE [--ask-become-pass] dyndup.yml
+    grunt client-install. 
     
-        HOSTS_FILE: inventory file, listing hosts where to deploy. 
-    
-    Python must be installed on all of the hosts (is a prerequisite for Ansible). Furthermore SSH access to all hosts 
-    must be defined, e.g. via ~/.ssh/config which contains configuration for each host. 
+    Python must be installed on all of the hosts where dyndup client will be installed (is a prerequisite for Ansible). 
+    Furthermore SSH access to all hosts must be defined, e.g. via ~/.ssh/config which contains configuration 
+    for each host. 
 
-This installs the dyndup.sh script and schedules the script as a cron-job to run every hour for a 
+This installs (using Ansible) the dyndup.sh script and schedules the script as a cron-job to run every hour for a 
 call-out to the lambda-function to update the DNS record if needed.
 
 Note that the script uses the hostname of the host executing the script, at the time of the setup, as the hostname 
 to be used for the DNS record.
+
+TODO: This needs to be done by AWS admin, need to check if this can be automated via the ansible script

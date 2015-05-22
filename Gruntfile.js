@@ -5,7 +5,10 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         'env': {
-            'dev': {
+            'production': {
+                'src': 'env.ini'
+            },
+            'test': {
                 'src': 'env.ini'
             }
         },
@@ -66,6 +69,12 @@ module.exports = function(grunt) {
             },
             'lambda-test': {
                 'command': 'aws lambda invoke-async --debug --function-name dyndup --invoke-args ./dyndup.event'
+            },
+            'client-install': {
+                'command': 'ansible-playbook -vv -i hosts-production dyndup.yml'
+            },
+            'test-client-install': {
+                'command': 'ansible-playbook -vv -i hosts-test dyndup.yml'
             }
         }
     });
@@ -75,8 +84,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
     grunt.loadNpmTasks('grunt-coveralls');
-    grunt.registerTask('test', ['env:dev', 'jshint', 'mocha_istanbul', 'coveralls']);
+    grunt.registerTask('test', ['env:test', 'jshint', 'mocha_istanbul', 'coveralls']);
 
     grunt.loadNpmTasks('grunt-shell');
-    grunt.registerTask('lambda-install', ['env:dev', 'shell:lambda-zip', 'shell:lambda-upload']);
+    grunt.registerTask('lambda-install', ['env:production', 'shell:lambda-zip', 'shell:lambda-upload']);
+    grunt.registerTask('client-install', ['env:production', 'shell:client-install']);
 };
