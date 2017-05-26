@@ -1,0 +1,7 @@
+{
+  "lambda": {
+    "role": "updateDnsARecord-executor",
+    "name": "updateDnsARecord",
+    "region": "eu-west-1"
+  }
+}

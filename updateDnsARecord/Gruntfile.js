@@ -48,7 +48,7 @@ module.exports = function(grunt) {
                 // coveralls.io is down). Optional, defaults to false.
                 'force': true
             },
-            'node-mcrcon': 'coverage/lcov.info'
+            'coverage': 'coverage/lcov.info'
         },
 
         'shell': {
@@ -69,12 +69,6 @@ module.exports = function(grunt) {
             },
             'lambda-test': {
                 'command': 'aws lambda invoke-async --debug --function-name dyndup --invoke-args ./dyndup.event'
-            },
-            'client-install': {
-                'command': 'ansible-playbook -vv -i hosts-production dyndup.yml'
-            },
-            'test-client-install': {
-                'command': 'ansible-playbook -vv -i hosts-test dyndup.yml'
             }
         }
     });

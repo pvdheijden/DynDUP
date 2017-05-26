@@ -1,22 +1,24 @@
 {
-  "name": "DynDUP",
-  "version": "0.0.1",
+  "name": "updateDnsARecord",
+  "version": "0.2.0-dev",
   "description": "AWS Route53 DynDNS lambda update function",
-  "main": "dyndup.js",
+  "main": "lambda.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "deploy": "claudia create --region eu-west-1 --handler lambda.handler"
   },
-  "author": "Pim <pvdheijden@yahoo.com>",
+  "author": "Pim <pim@zifzaf.com>",
   "license": "MIT",
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "http://github.com/pvdheijden/DynDUP.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/pvdheijden/DynDUP.git"
   },
   "devDependencies": {
+    "chai": "*",
+    "claudia": "^2.12.1",
     "grunt": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-nodeunit": "*",
@@ -29,11 +31,9 @@
     "istanbul": "*",
     "jshint": "*",
     "jshint-stylish": "*",
-    "mocha": "*",
-    "chai": "*"
+    "mocha": "*"
   },
   "dependencies": {
-    "debug": "*",
     "aws-sdk": "*"
   }
 }

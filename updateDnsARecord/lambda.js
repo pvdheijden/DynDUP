@@ -1,11 +1,11 @@
 var rrs = require('./lib/aws-route53-rrs');
 
 exports.handler = function(event, context) {
-    var hostedZoneId = event.zoneId;
-    var recordName = event.recordName;
-    var value = event.value;
+    const zoneId = event.zoneId;
+    const aRecord = event.aRecord;
+    const value = event.ip;
 
-    rrs.setA(hostedZoneId, recordName, value, function(err, data) {
+    rrs.setA(zoneId, aRecord, value, function(err, data) {
         if (err) {
             return context.done(err);
         }

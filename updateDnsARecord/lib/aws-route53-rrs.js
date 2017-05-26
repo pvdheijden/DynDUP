@@ -1,19 +1,12 @@
 'use strict';
 
-var debug;
-if (process.env.DEBUG) {
-    debug = require('debug')('dyndup:aws-route53-rrs');
-} else {
-    debug = function() {};
-}
+const AWS = require('aws-sdk');
+const route53 = new AWS.Route53();
 
-var AWS = require('aws-sdk');
-var route53 = new AWS.Route53();
+const getA = function(hostedZoneId, recordName, callback) {
+    console.info('getA call for: %s/%s', hostedZoneId, recordName);
 
-var getA = function(hostedZoneId, recordName, callback) {
-    debug('getA call for: %s/%s', hostedZoneId, recordName);
-
-    var params = {
+    const params = {
         'HostedZoneId': hostedZoneId,
         'StartRecordType': 'A',
         'StartRecordName': recordName,
@@ -22,11 +15,11 @@ var getA = function(hostedZoneId, recordName, callback) {
 
     route53.listResourceRecordSets(params, function(err, data) {
         if (err) {
-            debug('list rrs failure "%j"', err);
+            console.error('list rrs failure "%j"', err);
             return callback(err);
         }
 
-        debug('list rrs "%j"', data);
+        console.info('list rrs "%j"', data);
         if (data.ResourceRecordSets.length) {
             callback(null, data.ResourceRecordSets[0]);
         } else {
@@ -35,15 +28,15 @@ var getA = function(hostedZoneId, recordName, callback) {
     });
 };
 
-var setA = function(hostedZoneId, recordName, value, callback) {
-    debug('setA call for: %s/%s --> value: %s', hostedZoneId, recordName, value);
+const setA = function(hostedZoneId, recordName, value, callback) {
+    console.info('setA call for: %s/%s --> value: %s', hostedZoneId, recordName, value);
 
     getA(hostedZoneId, recordName, function(err, data) {
         if (err) {
             return callback(err);
         }
 
-        var isSet = (data !== null);
+        let isSet = (data !== null);
         if (isSet) {
             isSet = false;
             data.ResourceRecords.forEach(function(rr) {
@@ -52,11 +45,11 @@ var setA = function(hostedZoneId, recordName, value, callback) {
                 }
             });
 
-            debug('value %s set', isSet ? 'already' : 'not');
+            console.info('value %s set', isSet ? 'already' : 'not');
         }
 
         if (!isSet) {
-            var params = {
+            const params = {
                 'ChangeBatch': {
                     'Changes': [{
                         'Action': 'UPSERT',
@@ -73,11 +66,11 @@ var setA = function(hostedZoneId, recordName, value, callback) {
 
             route53.changeResourceRecordSets(params, function(err, data) {
                 if (err) {
-                    debug('change rrs failure "%j"', err);
+                    console.error('change rrs failure "%j"', err);
                     return callback(err);
                 }
 
-                debug('change rrs "%j"', data);
+                console.info('change rrs "%j"', data);
                 callback(err, data);
             });
         } else {
